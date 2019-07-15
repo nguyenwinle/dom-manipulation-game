@@ -34,7 +34,35 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         roundScore += dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
+        //next player
+        nextPlayer();
+    }
+});
+
+// set up an event listener for the hold button
+document.querySelector('.btn-hold').addEventListener('click', function() {
+    // add current score to global score
+    scores[activePlayer] += roundScore;
+    // scores[activePlayer] = scores[activePlayer] + roundScore;
+
+    // update user interface
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+    // check if player won game
+    if (scores[activePlayer] >= 10) {
+        document.getElementById('name-'+ activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+    } else {
         // next player
+        nextPlayer();
+    }
+    
+});
+
+function nextPlayer() {
+    // next player
         // id the dice equals 1 then we switch players 
         // activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
         if (activePlayer === 0) {
@@ -54,8 +82,9 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
         document.querySelector('.player-0-panel').classList.toggle('active');
         document.querySelector('.player-1-panel').classList.toggle('active');
-    }
-});
+
+        document.querySelector('.dice').style.display = 'none';
+}
 
 //start doing dom manipulation
 // document.querySelector('#current-' + activePlayer).textContent = dice;
